@@ -1,3 +1,0 @@
-# ensure that any system dnsmasq does not bind to fan-*
-bind-interfaces
-except-interface=fan-*
