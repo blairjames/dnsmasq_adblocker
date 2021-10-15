@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+CONTID=$(sudo docker run --rm -dt blairy/dnsmasq_adblocker);
+CONTIP=$(sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $CONTID);
+printf "\nTesting name resolution...\n"; 
+printf "\ndig @$CONTIP google.com.au\n";
+RES=$(dig @$CONTIP google.com.au); 
+RES=$(echo $RES | grep 'NOERROR');
+if [ -z "$RES" ];
+  then
+    printf "ERROR! - Dig failed"
+    exit 1
+  else
+    printf "\nSuccess! - Configure your network settings to use DNS server: $CONTIP\n"
+fi
+
